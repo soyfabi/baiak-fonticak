@@ -1,0 +1,58 @@
+local bag_dead = {
+	{ item = 2853 }, -- bag
+	{ item = 2861 }, -- blue bag
+	{ item = 2862 }, -- grey bag
+	{ item = 2863 } -- golden bag
+}
+
+local DropLoot = CreatureEvent("DropLoot")
+function DropLoot.onDeath(player, corpse, killer, mostDamageKiller, lastHitUnjustified, mostDamageUnjustified)
+	if player:hasFlag(PlayerFlag_NotGenerateLoot) or player:getVocation():getId() == VOCATION_NONE then
+		return true
+	end
+
+	local amulet = player:getSlotItem(CONST_SLOT_NECKLACE)
+	local isRedOrBlack = table.contains({SKULL_RED, SKULL_BLACK}, player:getSkull())
+	if amulet and amulet.itemid == ITEM_AMULETOFLOSS and not isRedOrBlack then
+		local isPlayer = false
+		if killer then
+			if killer:isPlayer() then
+				isPlayer = true
+			else
+				local master = killer:getMaster()
+				if master and master:isPlayer() then
+					isPlayer = true
+				end
+			end
+		end
+
+		if not isPlayer or not player:hasBlessing(6) then
+			player:removeItem(ITEM_AMULETOFLOSS, 1, -1, false)
+		end
+	else
+		for i = CONST_SLOT_HEAD, CONST_SLOT_AMMO do
+			local item = player:getSlotItem(i)
+			local lossPercent = player:getLossPercent()
+			if item then
+				if isRedOrBlack or math.random(item:isContainer() and 100 or 1000) <= lossPercent then
+					if (isRedOrBlack or lossPercent ~= 0) and not item:moveTo(corpse) then
+						item:remove()
+					end
+				end
+			end
+		end
+	end
+
+	if not player:getSlotItem(CONST_SLOT_BACKPACK) then
+		player:addItem(bag_dead[math.random(1, #bag_dead)].item, bag_dead, CONST_SLOT_BACKPACK)
+	end
+	return true
+end
+DropLoot:register()
+
+local login = CreatureEvent("DropLogin")
+function login.onLogin(player)
+	player:registerEvent("DropLoot")
+	return true
+end
+login:register()

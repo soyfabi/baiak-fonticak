@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Kong" nameDescription="a Kong" race="blood" experience="1500" speed="270"> <level min="2" max="3" />
+	<health now="2500" max="2500" />
+	<look type="116" corpse="6043" />
+	<targetchange interval="4000" chance="10" />
+	<flags>
+		<flag attackable="1" />
+		<flag hostile="1" />
+		<flag illusionable="1" />
+		<flag pushable="0" />
+		<flag canpushitems="1" />
+		<flag canpushcreatures="1" />
+		<flag targetdistance="1" />
+		<flag staticattack="90" />
+		<flag runonhealth="0" />
+		<flag canwalkonenergy="1" />
+		<flag canwalkonfire="1" />
+		<flag canwalkonpoison="1" />
+		<flag ignorespawnblock="1" />
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" min="0" max="-600" />
+	</attacks>
+	<defenses armor="18" defense="18">
+		<defense name="speed" interval="2000" chance="15" speedchange="260" duration="3000">
+			<attribute key="areaEffect" value="redshimmer" />
+		</defense>
+	</defenses>
+	<elements>
+		<element firePercent="20" />
+		<element earthPercent="10" />
+		<element energyPercent="5" />
+		<element icePercent="-15" />
+		<element deathPercent="-5" />
+	</elements>
+	<voices interval="5000" chance="10">
+		<voice sentence="Hugah!" />
+		<voice sentence="Ungh! Ungh!" />
+		<voice sentence="Huaauaauaauaa!" />
+	</voices>
+	<loot>
+		<item name="gold coin" countmax="55" chance="90000" />
+		<item name="banana" countmax="13" chance="30000" />
+		<item name="kongra's shoulderpad" chance="9500" />
+		<item name="protection amulet" chance="1000" />
+		<item name="plate armor" chance="1000" />
+		<item name="ape fur" chance="980" />
+		<item name="health potion" chance="570" />
+		<item name="power ring" chance="300" />
+		<item name="club ring" chance="230" />
+	</loot>
+</monster>
